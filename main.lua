@@ -2,14 +2,12 @@
 -- Ejecutar: love .
 
 local socket = require("socket")
-local utils = require("utils/mysplit")
+local utils = require("utils/utils")
 local udp
 local msgParams = {}
 local r = 0
 local g = 0
 local b = 0
-
-
 
 function love.load()
     udp = socket.udp()
@@ -32,22 +30,26 @@ function love.update(dt)
 
             msgParams = utils.split(data, ',')
 
-            print('Primero: ', msgParams[1])
-            print('Segundo: ', msgParams[2])
+            color = msgParams[1]
+            times = tonumber(msgParams[2])
 
-            if msgParams[1] == 'r' then
-                r = 255
+            print('Color: ', color)
+            print('Repetir: ', times)
+
+            if color == 'r' then
+                blinkColor(color,times)
+                -- r = 255
             else
                 r = 0
             end
 
-            if msgParams[1] == 'g' then
+            if color == 'g' then
                 g = 255
             else
                 g = 0
             end
 
-            if msgParams[1] == 'b' then
+            if color == 'b' then
                 b = 255
             else
                 b = 0
@@ -61,4 +63,17 @@ end
 
 function love.draw()
     love.graphics.setBackgroundColor(r, g, b)
+end
+
+function blinkColor(color, times)
+    i = 1
+    repeat
+        print(color)
+        if color == 'r' then
+            r = 255
+        else
+            r = 0
+        end
+        i = i + 1
+    until i > times
 end
