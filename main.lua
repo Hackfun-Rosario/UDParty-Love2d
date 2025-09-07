@@ -2,6 +2,7 @@
 -- Ejecutar: love .
 
 local socket = require("socket")
+local utils = require("utils/mysplit")
 local udp
 local msgParams = {}
 local r = 0
@@ -9,22 +10,6 @@ local g = 0
 local b = 0
 
 
-function mysplit (inputstr, sep)
-   -- if sep is null, set it as space
-   if sep == nil then
-      sep = '%s'
-   end
-   -- define an array
-   local t={}
-   -- split string based on sep   
-   for str in string.gmatch(inputstr, '([^'..sep..']+)') 
-   do
-      -- insert the substring in table
-      table.insert(t, str)
-   end
-   -- return the array
-   return t
-end
 
 function love.load()
     udp = socket.udp()
@@ -43,9 +28,9 @@ function love.update(dt)
     while true do
         local data, ip, port = udp:receivefrom()
         if data then
-            print(data)
+            -- print(data)
 
-            msgParams = mysplit(data, ',')
+            msgParams = utils.split(data, ',')
 
             print('Primero: ', msgParams[1])
             print('Segundo: ', msgParams[2])
