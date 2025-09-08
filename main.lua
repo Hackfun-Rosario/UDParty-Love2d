@@ -6,6 +6,7 @@ local utils = require("utils/utils")
 local udp
 local color = { r = 0, g = 0, b = 0 }
 local thread
+local alpha = 0
 
 function love.load()
     -- SOCKET
@@ -33,11 +34,10 @@ function love.update(dt)
             print(data)
 
             local msgParams = utils.split(data, ',')
-            local msgColor = msgParams[1]
-            local msgTimes = tonumber(msgParams[2])
-
-            -- print('Color: ', color)
-            -- print('Repetir: ', times)
+            color.r = tonumber(msgParams[1])
+            color.g = tonumber(msgParams[2])
+            color.b = tonumber(msgParams[3])
+            local msgTimes = tonumber(msgParams[4])
 
             thread:start(dt, msgTimes)
         else
@@ -48,13 +48,22 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.setBackgroundColor(0, 0, 0)
     local blinkres = love.thread.getChannel('blink'):pop()
 
     if (blinkres) then
-        color.r = blinkres
-    -- else
-    --     color.r = 0
+        alpha = tonumber(blinkres) or 0
+        -- else
+        --     color.r = 0
     end
-    
-    love.graphics.setBackgroundColor(color.r, color.g, color.b)
+
+    -- print('r ', color.r)
+    -- print('g ', color.g)
+    -- print('b ', color.b)
+    print('a ', alpha)
+
+    love.graphics.setColor(color.r, color.g, color.b, alpha)
+    w = love.graphics.getWidth()
+    h = love.graphics.getHeight()
+    love.graphics.rectangle('fill', 0, 0, w, h)
 end
