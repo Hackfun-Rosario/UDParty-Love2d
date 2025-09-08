@@ -4,12 +4,11 @@
 local socket = require("socket")
 local utils = require("utils/utils")
 local udp
-local msgParams = {}
-local r = 0
-local g = 0
-local b = 0
+local color = { r = 0, g = 0, b = 0 }
+local thread
 
 function love.load()
+    -- SOCKET
     udp = socket.udp()
     local port = 12345
     -- udp:setoption("reuseaddr", true)
@@ -20,40 +19,27 @@ function love.load()
         print("Escuchando en puerto ", port)
     end
     udp:settimeout(0) -- para que no bloquee el hilo principal
+
+    -- THREAD
+    thread = love.thread.newThread('effects/blink.lua')
+    -- thread:start()
 end
 
 function love.update(dt)
     while true do
-        local data, ip, port = udp:receivefrom()
+        local data = udp:receivefrom()
+
         if data then
-            -- print(data)
+            print(data)
 
-            msgParams = utils.split(data, ',')
+            local msgParams = utils.split(data, ',')
+            local msgColor = msgParams[1]
+            local msgTimes = tonumber(msgParams[2])
 
-            color = msgParams[1]
-            times = tonumber(msgParams[2])
+            -- print('Color: ', color)
+            -- print('Repetir: ', times)
 
-            print('Color: ', color)
-            print('Repetir: ', times)
-
-            if color == 'r' then
-                blinkColor(color,times)
-                -- r = 255
-            else
-                r = 0
-            end
-
-            if color == 'g' then
-                g = 255
-            else
-                g = 0
-            end
-
-            if color == 'b' then
-                b = 255
-            else
-                b = 0
-            end
+            thread:start(dt, msgTimes)
         else
             -- Salir del bucle si no hay más mensajes (no bloquear)
             break
@@ -62,18 +48,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(r, g, b)
-end
+    local blinkres = love.thread.getChannel('blink'):pop()
 
-function blinkColor(color, times)
-    i = 1
-    repeat
-        print(color)
-        if color == 'r' then
-            r = 255
-        else
-            r = 0
-        end
-        i = i + 1
-    until i > times
+    if (blinkres) then
+        color.r = blinkres
+    -- else
+    --     color.r = 0
+    end
+    
+    love.graphics.setBackgroundColor(color.r, color.g, color.b)
 end
