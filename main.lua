@@ -8,16 +8,29 @@ local color = { r = 0, g = 0, b = 0 }
 local thread
 local alpha = 0
 
-function love.load()
+function love.load(filtered_args, args)
+    local success, config = pcall(require, "config")
+    if not success then
+        print("No se encontró el archivo config.lua:", config)
+        config = {}
+    end
+
+    if config.port then
+        print("Port from config:", config.port)
+    else
+        print("No se especificó el puerto. Usando valor por defecto 12345")
+        config.port = 12345
+    end
+
     -- SOCKET
     udp = socket.udp()
     local port = 12345
     -- udp:setoption("reuseaddr", true)
-    local success, err = udp:setsockname("*", port)
+    local success, err = udp:setsockname("*", config.port)
     if not success then
         print("Error al enlazar socket: ", err)
     else
-        print("Escuchando en puerto ", port)
+        print("Escuchando...")
     end
     udp:settimeout(0) -- para que no bloquee el hilo principal
 
