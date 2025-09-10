@@ -35,9 +35,9 @@ function love.update(dt)
 
             local msgParams = utils.split(data, ',')
             color.r = tonumber(msgParams[1])
-            color.g = tonumber(msgParams[2])
-            color.b = tonumber(msgParams[3])
-            local msgTimes = tonumber(msgParams[4])
+            color.g = tonumber(msgParams[2]) or 0
+            color.b = tonumber(msgParams[3]) or 0
+            local msgTimes = tonumber(msgParams[4]) or 1
 
             thread:start(dt, msgTimes)
         else
@@ -60,7 +60,7 @@ function love.draw()
     -- print('r ', color.r)
     -- print('g ', color.g)
     -- print('b ', color.b)
-    print('a ', alpha)
+    -- print('a ', alpha)
 
     love.graphics.setColor(color.r, color.g, color.b, alpha)
     w = love.graphics.getWidth()
