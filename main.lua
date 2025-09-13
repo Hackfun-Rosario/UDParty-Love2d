@@ -1,14 +1,13 @@
 -- LOVE receiver
 -- Ejecutar: love .
-
 local socket = require("socket")
-local utils = require("utils/utils")
 local udp
-local color = { r = 0, g = 0, b = 0 }
-local thread
-local alpha = 0
+
+-- Efectos disponibles
+local blink = require("effects/blink/blink")
 
 function love.load(filtered_args, args)
+    -- Leer configuración desde archivo
     local success, config = pcall(require, "config")
     if not success then
         print("No se encontró el archivo config.lua:", config)
@@ -22,9 +21,8 @@ function love.load(filtered_args, args)
         config.port = 12345
     end
 
-    -- SOCKET
+    -- Socket UDP
     udp = socket.udp()
-    local port = 12345
     -- udp:setoption("reuseaddr", true)
     local success, err = udp:setsockname("*", config.port)
     if not success then
@@ -34,9 +32,8 @@ function love.load(filtered_args, args)
     end
     udp:settimeout(0) -- para que no bloquee el hilo principal
 
-    -- THREAD
-    thread = love.thread.newThread('effects/blink.lua')
-    -- thread:start()
+    -- Inicializar efectos
+    blink.load()
 end
 
 function love.update(dt)
@@ -44,15 +41,8 @@ function love.update(dt)
         local data = udp:receivefrom()
 
         if data then
-            print(data)
-
-            local msgParams = utils.split(data, ',')
-            color.r = tonumber(msgParams[1])
-            color.g = tonumber(msgParams[2]) or 0
-            color.b = tonumber(msgParams[3]) or 0
-            local msgTimes = tonumber(msgParams[4]) or 1
-
-            thread:start(dt, msgTimes)
+            print("Recibido: ", data)
+            blink.update(dt, data)
         else
             -- Salir del bucle si no hay más mensajes (no bloquear)
             break
@@ -61,22 +51,7 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0, 0, 0)
-    local blinkres = love.thread.getChannel('blink'):pop()
+    -- Dibujar los efectos
 
-    if (blinkres) then
-        alpha = tonumber(blinkres) or 0
-        -- else
-        --     color.r = 0
-    end
-
-    -- print('r ', color.r)
-    -- print('g ', color.g)
-    -- print('b ', color.b)
-    -- print('a ', alpha)
-
-    love.graphics.setColor(color.r, color.g, color.b, alpha)
-    w = love.graphics.getWidth()
-    h = love.graphics.getHeight()
-    love.graphics.rectangle('fill', 0, 0, w, h)
+    blink.draw()
 end
