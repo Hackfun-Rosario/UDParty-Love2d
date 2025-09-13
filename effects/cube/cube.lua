@@ -22,25 +22,26 @@ return {
         xOffset = tonumber(msgParams[2]) or 0
         yOffset = tonumber(msgParams[3]) or 0
 
-        x = x + xOffset
-        y = y + yOffset
+        -- x = x + xOffset
+        -- y = y + yOffset
+        x = xOffset + love.graphics.getWidth() / 2 - width / 2
+        y = yOffset + love.graphics.getHeight() / 2 - height / 2
     end,
 
     draw = function()
-
         -- Rectángulo central
         love.graphics.rectangle("line", x, y, width, height)
-        
+
         -- Esquina superior izquierda
-        love.graphics.line(0,0,x,y)
-        
+        love.graphics.line(0, 0, x, y)
+
         -- Esquina superior derecha
-        love.graphics.line(love.graphics.getWidth(),0,x+width,y)
-        
+        love.graphics.line(love.graphics.getWidth(), 0, x + width, y)
+
         -- Esquina inferior izquierda
-        love.graphics.line(0,love.graphics.getHeight(),x,y+height)
+        love.graphics.line(0, love.graphics.getHeight(), x, y + height)
 
         -- Esquina inferior derecha
-        love.graphics.line(love.graphics.getWidth(),love.graphics.getHeight(),x+width,y+height)
+        love.graphics.line(love.graphics.getWidth(), love.graphics.getHeight(), x + width, y + height)
     end
 }
