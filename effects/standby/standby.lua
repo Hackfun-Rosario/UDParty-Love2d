@@ -8,6 +8,7 @@ local alpha = 0
 
 return {
     load = function()
+        -- video = love.graphics.newVideo("assets/standby.mp4")
         -- thread = love.thread.newThread('effects/standby/threadcode/standby_thread.lua')
     end,
 
@@ -17,5 +18,6 @@ return {
 
     draw = function()
         love.graphics.setBackgroundColor(0.1, 0.5, 0.1)
+        -- video:play()
     end
 }

@@ -8,6 +8,7 @@ local currentEffect = 'init'
 -- Efectos disponibles
 local standby = require("effects/standby/standby")
 local blink = require("effects/blink/blink")
+local cube = require("effects/cube/cube")
 
 function love.load(filtered_args, args)
     -- Leer configuración desde archivo
@@ -38,6 +39,7 @@ function love.load(filtered_args, args)
     -- Inicializar efectos
     standby.load()
     blink.load()
+    cube.load()
 end
 
 function love.update(dt)
@@ -57,8 +59,12 @@ function love.update(dt)
             if currentEffect == 'blink' then
                 blink.update(dt, data)
             end
+
+            if currentEffect == 'cube' then
+                cube.update(dt, data)
+            end
         else
-            -- Salir del bucle si no hay más mensajes (no bloquear)
+            -- Salir del bucle si no hay más mensajes para no bloquear el thread
             break
         end
     end
@@ -76,4 +82,9 @@ function love.draw()
     if currentEffect == 'blink' then
         blink.draw()
     end
+
+    if currentEffect == 'cube' then
+        cube.draw()
+    end
+
 end
