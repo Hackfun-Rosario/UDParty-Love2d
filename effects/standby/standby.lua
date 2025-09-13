@@ -1,5 +1,5 @@
 -- Pone la pantalla en standby
--- Formato de payload: "stdby"
+-- Formato de payload: "standby"
 
 local thread
 local utils = require("utils/utils")
@@ -12,10 +12,10 @@ return {
     end,
 
     update = function(dt, data)
-        thread:start(dt)
+        -- thread:start(dt)
     end,
 
     draw = function()
-        love.graphics.setBackgroundColor(0, 0, 0)
+        love.graphics.setBackgroundColor(0.1, 0.5, 0.1)
     end
 }
