@@ -19,6 +19,11 @@ return {
         color.g = tonumber(msgParams[3]) or 0
         color.b = tonumber(msgParams[4]) or 0
         local msgTimes = tonumber(msgParams[5]) or 1
+        
+        if msgTimes > 10 then 
+            return  -- No te zarpes
+        end
+        
         thread:start(dt, msgTimes)
     end,
 
@@ -28,8 +33,6 @@ return {
 
         if (blinkres) then
             alpha = tonumber(blinkres) or 0
-            -- else
-            --     color.r = 0
         end
 
         love.graphics.setColor(color.r, color.g, color.b, alpha)

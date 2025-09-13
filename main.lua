@@ -3,9 +3,10 @@
 local socket = require("socket")
 local udp
 local utils = require("utils/utils")
-
+local currentEffect = 'standby'
 
 -- Efectos disponibles
+local standby = require("effects/standby/standby")
 local blink = require("effects/blink/blink")
 
 function love.load(filtered_args, args)
@@ -35,6 +36,7 @@ function love.load(filtered_args, args)
     udp:settimeout(0) -- para que no bloquee el hilo principal
 
     -- Inicializar efectos
+    standby.load()
     blink.load()
 end
 
@@ -48,6 +50,10 @@ function love.update(dt)
             local dataParams = utils.split(data, ',')
             currentEffect = dataParams[1]
 
+            if currentEffect == 'standby' then
+                -- standby.update();
+            end
+
             if currentEffect == 'blink' then
                 blink.update(dt, data)
             end
@@ -59,7 +65,11 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- Dibujar los efectos
+    if currentEffect == 'standby' then
+        love.graphics.setBackgroundColor(0, 0, 0)
+    end
 
-    blink.draw()
+    if currentEffect == 'blink' then
+        blink.draw()
+    end
 end
