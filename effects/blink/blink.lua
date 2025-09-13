@@ -1,3 +1,8 @@
+-- Parpadea la pantalla del color indicado, una o múltiples veces
+-- Formato de payload
+-- r,g,b,rep en donde r, g y b son los colores primarios y rep es la cantidad de repeticiones
+-- Ejemplo: 255,0,255,3  -> parpadea el color violeta 3 veces sucesivamente
+
 local thread
 local utils = require("utils/utils")
 local color = { r = 0, g = 0, b = 0 }
@@ -10,10 +15,10 @@ return {
 
     update = function(dt, data)
         local msgParams = utils.split(data, ',')
-        color.r = tonumber(msgParams[1])
-        color.g = tonumber(msgParams[2]) or 0
-        color.b = tonumber(msgParams[3]) or 0
-        local msgTimes = tonumber(msgParams[4]) or 1
+        color.r = tonumber(msgParams[2])
+        color.g = tonumber(msgParams[3]) or 0
+        color.b = tonumber(msgParams[4]) or 0
+        local msgTimes = tonumber(msgParams[5]) or 1
         thread:start(dt, msgTimes)
     end,
 

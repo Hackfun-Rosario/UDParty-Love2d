@@ -2,6 +2,8 @@
 -- Ejecutar: love .
 local socket = require("socket")
 local udp
+local utils = require("utils/utils")
+
 
 -- Efectos disponibles
 local blink = require("effects/blink/blink")
@@ -42,7 +44,13 @@ function love.update(dt)
 
         if data then
             print("Recibido: ", data)
-            blink.update(dt, data)
+
+            local dataParams = utils.split(data, ',')
+            currentEffect = dataParams[1]
+
+            if currentEffect == 'blink' then
+                blink.update(dt, data)
+            end
         else
             -- Salir del bucle si no hay más mensajes (no bloquear)
             break
