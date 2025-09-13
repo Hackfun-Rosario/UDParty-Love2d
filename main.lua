@@ -11,6 +11,8 @@ local blink = require("effects/blink/blink")
 local cube = require("effects/cube/cube")
 
 function love.load(filtered_args, args)
+    love.window.setMode(1024,600,{fullscreen = true})
+
     -- Leer configuración desde archivo
     local success, config = pcall(require, "config")
     if not success then
@@ -87,4 +89,10 @@ function love.draw()
         cube.draw()
     end
 
+end
+
+function love.keypressed(key, scancode, isrepeat)
+   if key == "q" then
+      love.event.quit()
+   end
 end
