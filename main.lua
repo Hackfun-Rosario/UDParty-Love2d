@@ -10,6 +10,7 @@ local standby = require("effects/standby/standby")
 local blink = require("effects/blink/blink")
 local cube = require("effects/cube/cube")
 local video = require("effects/video/video")
+local carrera = require("effects/carrera/carrera")
 
 function love.load(filtered_args, args)
     -- love.window.setFullscreen(true)
@@ -44,6 +45,7 @@ function love.load(filtered_args, args)
     blink.load()
     cube.load()
     video.load()
+    carrera.load()
 end
 
 function love.update(dt)
@@ -71,6 +73,10 @@ function love.update(dt)
             if currentEffect == 'video' then
                 video.update(dt, data)
             end
+            
+            if currentEffect == 'carrera' then
+                carrera.update(dt, data)
+            end
         else
             -- Salir del bucle si no hay más mensajes para no bloquear el thread
             break
@@ -97,6 +103,10 @@ function love.draw()
 
     if currentEffect == 'video' then
         video.draw()
+    end
+
+    if currentEffect == 'carrera' then
+        carrera.draw()
     end
 
 end

@@ -27,9 +27,7 @@ return {
         thread:start(dt, msgTimes)
     end,
 
-    draw = function()
-        -- love.graphics.setBackgroundColor(0, 0, 0)
-        
+    draw = function()       
         -- Obtiene valor de alpha
         local blinkAlpha = love.thread.getChannel('blink'):pop()
         if (blinkAlpha) then
