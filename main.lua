@@ -1,8 +1,8 @@
 -- LOVE receiver
 -- Ejecutar: love .
-local socket = require("socket")
+local socket = require "socket"
 local udp
-local utils = require("utils/utils")
+-- local utils = require "utils/utils"
 local currentEffect = 'init'
 
 -- Efectos disponibles
@@ -11,6 +11,10 @@ local blink = require("effects/blink/blink")
 local cube = require("effects/cube/cube")
 local video = require("effects/video/video")
 local carrera = require("effects/carrera/carrera")
+
+local utils = require "utils/utils"
+Class = require 'class'
+require "effects/carrera/car"
 
 function love.load(filtered_args, args)
     -- love.window.setFullscreen(true)
