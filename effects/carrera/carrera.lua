@@ -58,8 +58,7 @@ return {
     end,
 
     draw = function()
-        -- Rectángulo central
-        -- love.graphics.rectangle("line", x, y, width, height)
+        love.graphics.setBackgroundColor(0.13,0.13,0.13)
         car:draw()
     end
 }
