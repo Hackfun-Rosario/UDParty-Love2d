@@ -15,19 +15,19 @@ return {
         dy = tonumber(msgParams[3]) or 0
 
         if dx > 75 then
-            car:moveRight(220)
+            car:moveRight(160)
         elseif dx > 65 then
-            car:moveRight(190)
+            car:moveRight(120)
         elseif dx > 45 then
-            car:moveRight(100)
+            car:moveRight(80)
         elseif dx > 25 then
             car:moveRight(40)
         elseif dx < -75 then
-            car:moveLeft(220)
+            car:moveLeft(160)
         elseif dx < -65 then
-            car:moveLeft(190)
+            car:moveLeft(120)
         elseif dx < -45 then
-            car:moveLeft(100)
+            car:moveLeft(80)
         elseif dx < -25 then
             car:moveLeft(40)
         else

@@ -3,8 +3,9 @@ Car = Class {}
 -- CAR_SPEED = 100
 
 function Car:init()
-    self.width = 100
-    self.height = 30
+    self.sprite = love.graphics.newImage("assets/auto.png")
+    self.width = 117
+    self.height = 51
     self.x = (love.graphics.getWidth() / 2) - (self.width / 2)
     self.y = (love.graphics.getHeight() / 2) - (self.height / 2)
 
@@ -56,5 +57,6 @@ function Car:stopHorizontal()
 end
 
 function Car:draw()
-    love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    -- love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.sprite, self.x, self.y)
 end
