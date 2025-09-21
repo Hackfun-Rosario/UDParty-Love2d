@@ -1,7 +1,7 @@
 -- Reproduce un video en loop
 -- Formato de payload: "video"
 
-local utils = require("utils/utils")
+-- local utils = require("utils/utils")
 
 return {
     load = function()
@@ -10,7 +10,8 @@ return {
     end,
 
     update = function(dt, data)
-        --
+       video = love.graphics.newVideo("assets/video.ogv")
+       video:play()
     end,
 
     draw = function()
