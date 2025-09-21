@@ -15,29 +15,33 @@ return {
 
     update = function(dt, data)
         local msgParams = utils.split(data, ',')
-        color.r = tonumber(msgParams[2])
-        color.g = tonumber(msgParams[3]) or 0
-        color.b = tonumber(msgParams[4]) or 0
+        color.r = tonumber(msgParams[2]) / 255
+        color.g = tonumber(msgParams[3]) / 255 or 0
+        color.b = tonumber(msgParams[4]) / 255 or 0
         local msgTimes = tonumber(msgParams[5]) or 1
-        
-        if msgTimes > 10 then 
-            return  -- No te zarpes
+
+        if msgTimes > 10 then
+            return -- No te zarpes
         end
-        
+
         thread:start(dt, msgTimes)
     end,
 
     draw = function()
-        love.graphics.setBackgroundColor(0, 0, 0)
-        local blinkres = love.thread.getChannel('blink'):pop()
-
-        if (blinkres) then
-            alpha = tonumber(blinkres) or 0
+        -- love.graphics.setBackgroundColor(0, 0, 0)
+        
+        -- Obtiene valor de alpha
+        local blinkAlpha = love.thread.getChannel('blink'):pop()
+        if (blinkAlpha) then
+            alpha = tonumber(blinkAlpha) or 0
         end
 
-        love.graphics.setColor(color.r, color.g, color.b, alpha)
+        -- Dimensiones del rectángulo: pantalla
         w = love.graphics.getWidth()
         h = love.graphics.getHeight()
+        -- Define el color
+        love.graphics.setColor(color.r, color.g, color.b, alpha)
+        -- Pinta el rectángulo
         love.graphics.rectangle('fill', 0, 0, w, h)
     end
 }

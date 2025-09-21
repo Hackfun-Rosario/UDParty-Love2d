@@ -11,7 +11,7 @@ local blink = require("effects/blink/blink")
 local cube = require("effects/cube/cube")
 
 function love.load(filtered_args, args)
-    love.window.setMode(1024,600,{fullscreen = true})
+    -- love.window.setFullscreen(true)
 
     -- Leer configuración desde archivo
     local success, config = pcall(require, "config")
